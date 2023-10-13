@@ -22,7 +22,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
   build:
     needs:
-      - clippy
       - rustfmt
     runs-on: ubuntu-latest
     steps:
