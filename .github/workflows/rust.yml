@@ -38,6 +38,7 @@ jobs:
   build:
     needs:
       - rustfmt
+      - clippy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +47,7 @@ jobs:
           default: true
           toolchain: nightly-2023-08-08
           profile: minimal
+          components: rust-src
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: "true"
