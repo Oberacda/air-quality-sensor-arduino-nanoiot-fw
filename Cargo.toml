@@ -1,0 +1,27 @@
+[package]
+name = "air-quality-sensor-fw"
+version = "0.1.0"
+authors = ["David Oberacker <developer@oberacker.me>"]
+edition = "2021"
+license = "MIT"
+
+[[bin]]
+name = "air-quality-sensor-fw"
+test = false
+bench = false
+
+[dependencies]
+panic-halt = "0.2.0"
+bme280 = "0.2.1"
+embedded-alloc = "0.5.0"
+usbd-serial = "0.1"
+usb-device = "0.2"
+
+[dependencies.arduino_nano33iot]
+version = "0.7"
+features = ["default", "usb"]
+
+[dependencies.cortex-m]
+version = "0.7"
+features = ["critical-section-single-core"]
+
