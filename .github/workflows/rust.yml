@@ -9,50 +9,45 @@ env:
 
 jobs:
   clippy:
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
-          override: true
-          toolchain: nightly
-          components: clippy
+          default: true
+          components: clippy, rust-src
+          toolchain: nightly-2023-08-08
+          profile: minimal
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
   rustfmt:
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
-          override: true
-          toolchain: nightly
-          components: rustfmt
+          default: true
+          toolchain: nightly-2023-08-08
+          profile: minimal
+          components: rustfmt, rust-src
       - uses: mbrobbel/rustfmt-check@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
   build:
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     needs:
-      - clippy
       - rustfmt
+      - clippy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
+        with:
+          default: true
+          toolchain: nightly-2023-08-08
+          profile: minimal
+          components: rust-src, llvm-tools-preview
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: "true"
