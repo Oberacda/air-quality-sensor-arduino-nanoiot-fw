@@ -4,13 +4,13 @@
 extern crate alloc;
 extern crate bme280;
 
-use embedded_alloc::Heap;
 use alloc::format;
 use arduino_nano33iot as bsp;
 use arduino_nano33iot::ehal::digital::v2::PinState;
 use arduino_nano33iot::pac::interrupt;
-use bsp::hal;
 use bme280::BME280;
+use bsp::hal;
+use embedded_alloc::Heap;
 
 use usb_device;
 use usbd_serial;
@@ -33,7 +33,6 @@ use cortex_m::peripheral::NVIC;
 
 #[global_allocator]
 static HEAP: Heap = Heap::empty();
-
 
 #[entry]
 fn main() -> ! {
@@ -115,9 +114,15 @@ fn main() -> ! {
             USB_BUS.as_mut().map(|_| {
                 USB_SERIAL.as_mut().map(|serial| {
                     // Skip errors so we can continue the program
-                    let _ = serial.write(format!("Relative Humidity = {}%\n\r", measurements.humidity).as_bytes());
-                    let _ = serial.write(format!("Temperature = {} deg C\n\r", measurements.temperature).as_bytes());
-                    let _ = serial.write(format!("Pressure = {} pascals\n\r", measurements.pressure).as_bytes());
+                    let _ = serial.write(
+                        format!("Relative Humidity = {}%\n\r", measurements.humidity).as_bytes(),
+                    );
+                    let _ = serial.write(
+                        format!("Temperature = {} deg C\n\r", measurements.temperature).as_bytes(),
+                    );
+                    let _ = serial.write(
+                        format!("Pressure = {} pascals\n\r", measurements.pressure).as_bytes(),
+                    );
                 });
             })
         });
