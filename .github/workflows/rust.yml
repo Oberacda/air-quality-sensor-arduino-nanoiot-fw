@@ -8,28 +8,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  clippy:
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
-        with:
-          override: true
-          toolchain: nightly
-          components: clippy
-      - uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-features
   rustfmt:
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,10 +21,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
   build:
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     needs:
       - clippy
       - rustfmt
